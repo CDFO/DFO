@@ -27,8 +27,8 @@ export class CatalogueService {
 
   //Method to get Categories to be displayed in Left NAV
   getCategories(): Observable<object>{
-    return this.http.get<object>("http://localhost:8080/rpc/get_categories");
-    //return this.http.get<object>("http://localhost:8084/catalogue/active");
+    //return this.http.get<object>("http://localhost:8080/rpc/get_categories");
+    return this.http.get<object>("http://localhost:8084/catalogue/active");
   }
 
   //Method to get Catalogues to be displayed in Catalogue

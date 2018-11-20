@@ -17,12 +17,14 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class CartComponent implements OnInit {
 
   myCart : Array<Object> = [];
+  //myCart : object;
   //cartObject : Array<Object> = [];
   cartObject : object;
   cartKeys :  object;
   successMessage : string;
   catalogueDescription : string;
   formDivHeight : number;
+  errorMessage : string;
 
   constructor(
     private dialog: MatDialog,
@@ -34,8 +36,11 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     //this.cookie.deleteAll();
-    this.myCart = this.cart.getFromCart();
-    console.log(this.myCart); 
+    //this.myCart = this.cart.getFromCart(0);
+    this.cart.getFromCart(0).subscribe(data => {
+      this.myCart = data;
+      console.log(this.myCart); 
+    })
   }
 
   showCartDetails(item: JSON, catalogueDescription){
@@ -44,15 +49,24 @@ export class CartComponent implements OnInit {
     this.catalogueDescription = catalogueDescription;
   }
 
-  removeFromMyCart(val: object, name: string){
+  removeFromMyCart(id: number, name: string){
     const dlg = this.dialog.open(AlertComponent, {
       data: {title: 'Confirm Delete', msg: 'Are you sure you want to remove '+ name +' from cart?'}
     });
     dlg.afterClosed().subscribe((remove: boolean) => {
       if (remove) {
-        this.cart.removeFromCart(val);
-        this.cartObject = null;
-        this.successMessage = 'Item has been removed sucessfully.';
+        this.cart.removeFromCart(id).subscribe(
+          response => {
+            this.cartObject = null;
+            this.successMessage = 'Item '+ name +' has been removed sucessfully.';
+            //console.log(this.myCart); 
+          },
+          error => {
+            this.errorMessage = error;//._body.message
+            console.log(error);    
+          }
+        );
+        //this.cart.removeFromCart(id);
       }
     });
   }
@@ -63,10 +77,23 @@ export class CartComponent implements OnInit {
     });
     dlg.afterClosed().subscribe((checkout: boolean) => {
       if (checkout) {
+        this.cart.addToMyRequests(0).subscribe(
+          response => {
+            this.cartObject = null;
+            this.successMessage = (this.myCart.length > 1) ? this.myCart.length + ' items have been submitted sucessfully' : 'Item has been submitted sucessfully';
+            //console.log(this.myCart); 
+          },
+          error => {
+            this.errorMessage = error;//._body.message
+            console.log(error);    
+          }
+        );
+        /*
         this.cart.addToMyRequests();
         this.myCart = [];
         this.cartObject = null;
         this.successMessage = (this.myCart.length > 1) ? this.myCart.length + ' items have been submitted sucessfully' : 'Item has been submitted sucessfully';
+        */
   }
 });
 }

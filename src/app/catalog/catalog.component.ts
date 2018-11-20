@@ -126,16 +126,16 @@ export class CatalogComponent implements OnInit {
       "catalogueName" : this.catalogueName,
       "catalogueDescription": this.catalogueDescription,
       "icon" : this.selectedIcon
-     };
-     let tempObj2 = {
+    };
+    Object.assign(form, tempObj);
+    let tempObj2 = {
       "userid" : 0,
       "catalogueId" : this.catID,
       "systemid" : 0,
       "active" : true,
       "fields" : JSON.stringify(form)
-     };
-    Object.assign(form, tempObj);
-    this.cart.addToCart(form);
+    };
+    //this.cart.addToCart(form);
     //console.log(tempObj2);
     this.postData(tempObj2);
     //this.successMessage = name + ': Added to cart successfully.';
@@ -200,7 +200,10 @@ export class CatalogComponent implements OnInit {
 
     this.http.put(postUrl, data, options)
     .subscribe(
-      response => this.successMessage = 'Added to cart successfully.',
+      response => {
+        this.cart.Count.next(this.cart.cartLength+1);
+        this.successMessage = 'Added to cart successfully.'
+      },
       error => {
         this.errorMessage = error._body.message;
         console.log(error);

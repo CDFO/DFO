@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Http, Response, Headers, RequestOptions, ResponseContentType, RequestMethod  } from '@angular/http';
+import { map,tap } from 'rxjs/operators';
 
 @Injectable()
 export class CartService{
@@ -11,29 +14,32 @@ export class CartService{
   public counter : number = 1;
   myCart : Array<Object> = [];
   myRequests : Array<Object> = [];
-  private Count = new BehaviorSubject<number>(0);
+  cartLength : number;
+  public Count = new BehaviorSubject<number>(0);
   cast = this.Count.asObservable();
 
-  constructor(private cookie : CookieService){}
+  public options = new RequestOptions({
+    headers: new Headers({'Content-Type':'application/json'}),
+    method: RequestMethod.Put,
+    responseType: ResponseContentType.Json,
+    withCredentials: false
+  });
 
-  /*  Lifecycle hooks, like OnInit() work with Directives and Components. 
-      They do not work with other types, like a service.
-  */
+  constructor(private cookie : CookieService, private http: HttpClient){}
 
-  addToCart(val: object){
-    this.myCart.push(val);
-    this.cookie.set('myCart',JSON.stringify(this.myCart),5);
-    this.Count.next(this.myCart.length);
-  }
-
-  removeFromCart(val: object){
+  removeFromCart(cartId: number): Observable<string>{
+    /*
     this.myCart.splice(this.myCart.indexOf(val),1);
     //this.cookie.delete('myCart');
     this.cookie.set('myCart',JSON.stringify(this.myCart),5);
     this.Count.next(this.myCart.length);
+    */
+   this.Count.next(this.cartLength-1);
+   return this.http.delete<string>("http://localhost:8084/cart/{cartId}?cartId="+cartId);
   }
-  
-  getFromCart(){
+
+  getFromCart(userId: number): Observable<Array<Object>>{
+    /*
     if (this.cookie.check('myCart') && this.myCart.length == 0){
       this.myCart = [];
       this.jsonObj = JSON.parse(this.cookie.get('myCart'));
@@ -44,9 +50,22 @@ export class CartService{
       }
     }
     return this.myCart;
+    */
+    return this.http.get<Array<Object>>("http://localhost:8084/cart/{userId}?userId="+userId).pipe(tap(data => { 
+      var array = this.generateArray(data); 
+      for (let key1 in array) {
+        array[key1].fields = this.JSONFormating(array[key1].fields);
+      }
+      this.cartLength = array.length;
+      this.Count.next(array.length);
+      return array;
+    }));
   }
 
-  addToMyRequests(){
+  addToMyRequests(userId: number): Observable<string>{
+    this.Count.next(this.myCart.length);
+    return this.http.get<string>("http://localhost:8084/cart/checkOut/{userid}?userid="+userId);
+    /*
     this.cookieCart = this.cookie.get('myCart');
     this.cookieReq = this.cookie.get('myRequests');
     this.myRequests = [];
@@ -82,6 +101,8 @@ export class CartService{
     this.cookie.delete('myCart');
     this.myCart = [];
     this.Count.next(this.myCart.length);
+    */
+
   }
 
   getMyRequests(){
@@ -93,6 +114,16 @@ export class CartService{
       }
     }
     return this.myRequests;
+  }
+
+  //Method for converting JSON format from Java interface to Angular accepted form 
+  JSONFormating(data): JSON{
+    return JSON.parse(JSON.stringify(data).replace(/\\r\\n/g, "").replace(/\\"/g, '"').replace(/\\t/g,"").replace(/\s\s+/g, " ").replace(/"{/g,"{").replace(/}"/g,"}"));
+  }
+
+  //Method to convert object to array
+  generateArray(obj){
+    return Object.keys(obj).map((key)=>{ return obj[key]});
   }
 
 }

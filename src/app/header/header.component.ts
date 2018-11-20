@@ -10,13 +10,13 @@ export class HeaderComponent implements OnInit {
 
   nCount : number;
   profilePic : string;
-  constructor(private cart: CartService,) { 
+  constructor(private cart: CartService) { 
     this.profilePic = '../../assets/images/profile/user.png';
   }
 
   ngOnInit() {
-    this.cart.cast.subscribe(
-      totalItems=>  this.nCount = totalItems);
-   }
+    this.cart.cast.subscribe(totalItems =>  this.nCount = totalItems);
+    this.cart.getFromCart(0).subscribe(data => this.nCount = data.length);
+  }
 
 }
