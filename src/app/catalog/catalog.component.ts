@@ -33,6 +33,7 @@ export class CatalogComponent implements OnInit {
   catalogueName : string;
   buttonClicked :string;
   successMessage : string;
+  errorMessage : string;
   catalogueDescription : string;
   shuttleRoute : object;
   shuttleArea : object;
@@ -126,14 +127,24 @@ export class CatalogComponent implements OnInit {
       "catalogueDescription": this.catalogueDescription,
       "icon" : this.selectedIcon
      };
+     let tempObj2 = {
+      "userid" : 0,
+      "catalogueId" : this.catID,
+      "systemid" : 0,
+      "active" : true,
+      "fields" : JSON.stringify(form)
+     };
     Object.assign(form, tempObj);
     this.cart.addToCart(form);
-    this.successMessage = name + ': Added to cart successfully.';
+    //console.log(tempObj2);
+    this.postData(tempObj2);
+    //this.successMessage = name + ': Added to cart successfully.';
   }
 
   //Method to fetch Child Options on Parent Dropdown change
   onParentSelect(childId,childOptions,childField,resetFields) {
 
+    //Reset all child fields on selection
     resetFields.split(/\s*,\s*/).forEach(function(field) {
       for (let i = 0; i < childOptions.length; i++) {
         (document.getElementById(field) as HTMLSelectElement).options.remove(i);
@@ -152,12 +163,17 @@ export class CatalogComponent implements OnInit {
   }
 
   //Method to fetch Child Options on Parent Dropdown change
-  onChildSelect(childId,childOptions,childField) {
-    for (let i = 0; i < childOptions.length; i++) {
-      (document.getElementById(childField) as HTMLSelectElement).options.remove(i);
-    }
-    let tmpOption = new Option('(choose one)','');
-    (document.getElementById(childField) as HTMLSelectElement).options.add(tmpOption);
+  onChildSelect(childId,childOptions,childField,resetFields) {
+    //Reset all child fields on selection
+    resetFields.split(/\s*,\s*/).forEach(function(field) {
+      for (let i = 0; i < childOptions.length; i++) {
+        (document.getElementById(field) as HTMLSelectElement).options.remove(i);
+      }
+      let tmpOption = new Option('(choose one)','');
+      (document.getElementById(field) as HTMLSelectElement).options.add(tmpOption);
+    });
+
+    //Loop thorugh options from database/method 
     for(let option in childOptions){
       if (childOptions[option].parentid == childId){
         //this.childOptions2.push(childOptions[option]);  
@@ -168,29 +184,33 @@ export class CatalogComponent implements OnInit {
     //console.log('childField: '+childField);
   }
 
-  getElem(elem){
-   console.log('ELEM: '+elem+' = '+(document.getElementById(elem) as HTMLSelectElement).selectedIndex);
-  }  
-
-  /* ************* TO BE USED ***************
-  public post(data: string): Observable<any> {
-    let postUrl = 'http://localhost:8080/rpc/addtocart';
+  /* ************* TO BE USED *************** */
+  public postData(data: object) {
+    let postUrl = 'http://localhost:8084/cart';
 
     const options = new RequestOptions({
       headers: new Headers({'Content-Type':'application/json'}),
-      method: RequestMethod.Post,
+      method: RequestMethod.Put,
       url:postUrl,
       responseType: ResponseContentType.Json,
-      withCredentials: false,
-      
+      withCredentials: false
     });
 
-    return this.http.post(postUrl, JSON.stringify({
-      data: data}), options)
-      .pipe(map(this.handleData),catchError(this.handleError));
+    //return this.http.put(postUrl, data, options).pipe(map(this.handleData),catchError(this.handleError));
+
+    this.http.put(postUrl, data, options)
+    .subscribe(
+      response => this.successMessage = 'Added to cart successfully.',
+      error => {
+        this.errorMessage = error._body.message;
+        console.log(error);
+      }
+    );  
+
   }
 
   private handleData(res: Response){
+    console.log(res);
     let body = res.json();
     return body;
   }
@@ -207,6 +227,6 @@ export class CatalogComponent implements OnInit {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
-  */
+  
 
 }

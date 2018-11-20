@@ -26,7 +26,11 @@
             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
             {{successMessage}}
         </div>    
-            
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{errorMessage}}
+        </div>
+          
           <form novalidate *ngIf="dataObject && !successMessage" [formGroup]="form"><!--(ngSubmit)="onSubmit(form.value)"-->
             <div class="row">
             <div class="form-group col-12 col-lg-6 nopadding specialPadding" *ngFor="let prop of objectProps">
@@ -108,7 +112,7 @@
                     <!-- Child Parent Select Field -->
                     <ng-container *ngIf="prop.special.selecttype == 'child' && prop.childoptions"><!--[(ngModel)]="selected.id"-->
                       <select class="form-control" id="{{prop.key}}"
-                        (change)="onChildSelect($event.target.value,prop.childoptions,prop.special.childfield)"
+                        (change)="onChildSelect($event.target.value,prop.childoptions,prop.special.childfield,prop.special.resetfields)"
                         [formControlName]="prop.key"
                         [ngClass]="{'invalid-text': form.get(prop.key).invalid && (form.get(prop.key).dirty || form.get(prop.key).touched) }"
                         >
