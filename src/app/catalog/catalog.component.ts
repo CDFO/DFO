@@ -71,7 +71,7 @@ export class CatalogComponent implements OnInit {
   //Method to Confirm Form reset
   resetForm(name: string){
     const dlg = this.dialog.open(AlertComponent, {
-      data: {title: 'Confirm Reset', msg: 'Are you sure you want to reset '+ name +' form?'}
+      data: {title: 'Confirm Reset', msg: 'Are you sure you want to reset '+ name +' form?', icon:'eraser'}
     });
     dlg.afterClosed().subscribe((reset: boolean) => {
       if (reset) {

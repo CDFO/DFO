@@ -51,7 +51,7 @@ export class CartComponent implements OnInit {
   //Delete from Cart
   removeFromMyCart(id: number, name: string){
     const dlg = this.dialog.open(AlertComponent, {
-      data: {title: 'Confirm Delete', msg: 'Are you sure you want to remove '+ name +' from cart?'}
+      data: {title: 'Confirm Delete', msg: 'Are you sure you want to remove '+ name +' from cart?', icon:'trash'}
     });
     dlg.afterClosed().subscribe((remove: boolean) => {
       if (remove) {
@@ -77,7 +77,7 @@ export class CartComponent implements OnInit {
   //Move from cart to request - Checkout
   checkout(){
     const dlg = this.dialog.open(AlertComponent, {
-      data: {title: 'Confirm Checkout', msg: (this.myCart.length > 1) ? 'Are you sure you want to checkout ' + this.myCart.length + ' items from your cart?' : 'Are you sure you want to checkout 1 item from your cart?'}
+      data: {title: 'Confirm Checkout', msg: (this.myCart.length > 1) ? 'Are you sure you want to checkout ' + this.myCart.length + ' items from your cart?' : 'Are you sure you want to checkout 1 item from your cart?', icon:'check-circle'}
     });
     dlg.afterClosed().subscribe((checkout: boolean) => {
       if (checkout) {
