@@ -162,21 +162,10 @@ button.dfo-primary {
     font-size: 0.9em;
     border: none;
 }
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-.bootstrap-select, .btn.focus, .btn:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-.paddingMessage{
-    margin: 0px 20px 20px 20px;
-}
 
+.alertMessage{
+    margin:15px;
+}
 
 /****** MOBILE STYLES ******/
 @media only screen and (max-width: 450px){

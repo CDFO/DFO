@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CatalogueService } from '../catalog/catalog.service';
+import { CatalogueService } from '../_services/catalog.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,15 +11,21 @@ import { CatalogueService } from '../catalog/catalog.service';
 export class NavComponent implements OnInit {
 
   categories: object;
-  constructor(private router: Router, private catalogueService: CatalogueService) { }
-
+  loggedIn : boolean;
+  divId : string;
   private _opened: boolean = false;
+
+  constructor(private router: Router, private catalogueService: CatalogueService) { }
  
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
 
   ngOnInit() {
+    if (localStorage.getItem('currentUser')){
+      this.loggedIn = true;
+      this.divId = "main";
+    }
   }
 
   minimizeAll(){

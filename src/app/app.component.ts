@@ -7,9 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'panorama';
-  public myCartCount:number = 0;
-
-  myCartChange(event) {
-    console.log(event);
-  }
 }

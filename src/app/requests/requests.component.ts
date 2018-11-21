@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
-import { CartService } from '../cart/cart.service';
+import { CartService } from '../_services/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({

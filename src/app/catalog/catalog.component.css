@@ -5,6 +5,22 @@ form>div>.specialPadding:nth-child(odd){
 .fullHeight{ 
     min-height: 100%;
 }
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+.bootstrap-select, .btn.focus, .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+.paddingMessage{
+    margin: 0px 20px 20px 20px;
+}
+
 .borderRight{
     border-right:1px solid #e7eaec;
 }
@@ -76,7 +92,6 @@ input.invalid-text[type="email"]{
     padding:5px 10px;
     font-size: 0.8em;
 }
-
 
 
 

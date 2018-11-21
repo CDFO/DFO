@@ -21,7 +21,7 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CartComponent } from './cart/cart.component';
-import { CartService } from './cart/cart.service';
+import { CartService } from './_services/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SidebarModule } from 'ng-sidebar';
 import { AlertComponent } from './alert/alert.component';
@@ -30,6 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TmpComponent } from './tmp/tmp.component';
 import { DropDownService } from './tmp/dropdown.service';
 import { Global } from './global';
+import { LoginComponent } from './login/login.component';
+import { NeedAuthGuard } from './_guards/auth.guard';
+import { AlertService } from './_services/alert.service';
+import { AlertsComponent } from './_directives/alert.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,9 @@ import { Global } from './global';
     ProfileComponent,
     CartComponent,
     AlertComponent,
+    AlertsComponent,
     TmpComponent,
+    LoginComponent,
     ],
   imports: [
     BrowserModule, 
@@ -71,7 +77,9 @@ import { Global } from './global';
     CartService,
     CookieService,
     DropDownService,
-    Global
+    Global,
+    NeedAuthGuard,
+    AlertService
     ],
 
   bootstrap: [AppComponent],

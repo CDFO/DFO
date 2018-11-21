@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from './cart.service';
+import { CartService } from '../_services/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { AlertComponent } from '../alert/alert.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';

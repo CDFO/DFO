@@ -1,4 +1,5 @@
-<aside id="left-panel">
+<ng-container *ngIf="loggedIn">
+  <aside id="left-panel">
     <nav>
       <ul>
         <li class="leftMinimizeArrows" id="minifyButton">
@@ -57,11 +58,13 @@
         </ul>
     </nav>
   </aside>
+</ng-container>
 
 
-<div id="main">
+<div [id]="divId">
     <div class="row">
       <div class="col-12 nopadding">
+        <alert></alert>
         <router-outlet></router-outlet>
     </div>
   </div>

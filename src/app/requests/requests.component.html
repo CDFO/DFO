@@ -19,7 +19,7 @@
                             <!--<div class="catalogueDescription">{{item.catalogueDescription}}</div>-->
                         </div>
                         <div class="col-6 offset-2 col-md-5 offset-md-0 col-lg-3 offset-lg-0 catalogueDate">
-                            {{item.fields.submittedDate | date:'dd-MMM-yyyy hh:mm:ss'}}
+                            {{item.createddate | date:'dd-MMM-yyyy hh:mm:ss'}}
                         </div>
                         <div class="col-4 col-md-4 offset-md-7 col-lg-2 offset-lg-0">
                             <div class="label nowrap cgiGray" *ngIf="idx % 4 == 0">In Progress</div>

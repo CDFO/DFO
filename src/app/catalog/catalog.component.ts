@@ -1,11 +1,11 @@
 import { Inject, Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common'; 
-import { CatalogueService } from './catalog.service';
+import { CatalogueService } from '../_services/catalog.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import { Http, Response} from '@angular/http';
-import { CartService } from '../cart/cart.service';
+import { CartService } from '../_services/cart.service';
 import { AlertComponent } from '../alert/alert.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Global } from '../global';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Area, Nodal } from './classes';
 import { DropDownService} from './dropdown.service';
-import { CatalogueService } from '../catalog/catalog.service';
+import { CatalogueService } from '../_services/catalog.service';
 import { Observable } from 'rxjs';
 import { map,tap,filter } from 'rxjs/operators';
 

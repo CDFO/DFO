@@ -9,23 +9,26 @@ import { CatalogComponent } from "./catalog/catalog.component";
 import { NotificationsComponent } from "./notifications/notifications.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { CartComponent } from "./cart/cart.component";
+import { LoginComponent } from "./login/login.component";
 import { TmpComponent } from "./tmp/tmp.component";
+import {NeedAuthGuard} from './_guards/auth.guard';
 
 //Array of routes
 export const routes: Routes = [
     //{path: '', component: HomeComponent},
     {path: '', pathMatch: 'full', redirectTo: 'welcome'},
-    {path: 'welcome', component: WelcomeComponent, data: {breadcrumb: 'Home'}},
-    {path: 'dashboard', component: DashboardComponent, data: {breadcrumb: 'Dashboard'}},
-    {path: 'requests', component: RequestsComponent, data: {breadcrumb: 'Requests'}},
-    {path: 'catalogue', component: WelcomeComponent, data: {breadcrumb: 'Catalogue'}},
-    {path: 'catalogue/:category', component: CatalogComponent, data: {breadcrumb: 'Catalogue Category'}},
-    {path: 'reports', component: ReportsComponent, data: {breadcrumb: 'Reports'}},
-    {path: 'manage', component: ManageComponent, data: {breadcrumb: 'Manage'}},
-    {path: 'cart', component: CartComponent, data: {breadcrumb: 'Cart'}},
-    {path: 'profile', component: ProfileComponent, data: {breadcrumb: 'My Profile'}},
-    {path: 'notifications', component: NotificationsComponent, data: {breadcrumb: 'Notifications'}},
-    {path: 'tmp', component: TmpComponent, data: {breadcrumb: 'Temp'}},
+    {path: 'welcome', component: WelcomeComponent, canActivate: [NeedAuthGuard]},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [NeedAuthGuard]},
+    {path: 'requests', component: RequestsComponent, canActivate: [NeedAuthGuard]},
+    {path: 'catalogue', component: WelcomeComponent, canActivate: [NeedAuthGuard]},
+    {path: 'catalogue/:category', component: CatalogComponent, canActivate: [NeedAuthGuard]},
+    {path: 'reports', component: ReportsComponent, canActivate: [NeedAuthGuard]},
+    {path: 'manage', component: ManageComponent, canActivate: [NeedAuthGuard]},
+    {path: 'cart', component: CartComponent, canActivate: [NeedAuthGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [NeedAuthGuard]},
+    {path: 'notifications', component: NotificationsComponent, canActivate: [NeedAuthGuard]},
+    {path: 'login', component: LoginComponent},
+    {path: 'tmp', component: TmpComponent},
     {path: '**', component: NoPageComponent}
 
 ];
