@@ -29,6 +29,7 @@ import { MatDialogModule, MatButtonModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TmpComponent } from './tmp/tmp.component';
 import { DropDownService } from './tmp/dropdown.service';
+import { Global } from './global';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { DropDownService } from './tmp/dropdown.service';
   providers: [
     CartService,
     CookieService,
-    DropDownService
+    DropDownService,
+    Global
     ],
 
   bootstrap: [AppComponent],

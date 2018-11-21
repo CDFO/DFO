@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Http, Response, Headers, RequestOptions, ResponseContentType, RequestMethod  } from '@angular/http';
 import { map,tap } from 'rxjs/operators';
+import {Global} from '../global';
 
 @Injectable()
 export class CartService{
@@ -18,14 +18,11 @@ export class CartService{
   public Count = new BehaviorSubject<number>(0);
   cast = this.Count.asObservable();
 
-  public options = new RequestOptions({
-    headers: new Headers({'Content-Type':'application/json'}),
-    method: RequestMethod.Put,
-    responseType: ResponseContentType.Json,
-    withCredentials: false
-  });
-
-  constructor(private cookie : CookieService, private http: HttpClient){}
+  constructor(
+    private cookie : CookieService, 
+    private http : HttpClient,
+    private global : Global
+  ){}
 
   removeFromCart(cartId: number): Observable<string>{
     /*
@@ -34,8 +31,11 @@ export class CartService{
     this.cookie.set('myCart',JSON.stringify(this.myCart),5);
     this.Count.next(this.myCart.length);
     */
-   this.Count.next(this.cartLength-1);
-   return this.http.delete<string>("http://localhost:8084/cart/{cartId}?cartId="+cartId);
+    let tempObj = {
+      "cartId" : cartId
+    };
+    this.Count.next(this.cartLength-1);
+    return this.http.delete<string>(this.global.databaseURL + "/cart/{cartId}?cartId="+cartId);//,this.global.httpOptions
   }
 
   getFromCart(userId: number): Observable<Array<Object>>{
@@ -51,10 +51,10 @@ export class CartService{
     }
     return this.myCart;
     */
-    return this.http.get<Array<Object>>("http://localhost:8084/cart/{userId}?userId="+userId).pipe(tap(data => { 
-      var array = this.generateArray(data); 
+    return this.http.get<Array<Object>>(this.global.databaseURL + "/cart/{userId}?userId="+userId).pipe(tap(data => { 
+      var array = this.global.generateArray(data); 
       for (let key1 in array) {
-        array[key1].fields = this.JSONFormating(array[key1].fields);
+        array[key1].fields = this.global.jsonFormating(array[key1].fields);
       }
       this.cartLength = array.length;
       this.Count.next(array.length);
@@ -62,9 +62,11 @@ export class CartService{
     }));
   }
 
-  addToMyRequests(userId: number): Observable<string>{
-    this.Count.next(this.myCart.length);
-    return this.http.get<string>("http://localhost:8084/cart/checkOut/{userid}?userid="+userId);
+  addToMyRequests(userId: number): Observable<object>{
+    let tempObj = {
+      "userId" : userId
+    };
+    return this.http.put<object>(this.global.databaseURL + "/cart/checkOut/{userid}?userid="+userId,tempObj);
     /*
     this.cookieCart = this.cookie.get('myCart');
     this.cookieReq = this.cookie.get('myRequests');
@@ -105,7 +107,17 @@ export class CartService{
 
   }
 
-  getMyRequests(){
+  getMyRequests(userId: number): Observable<Array<Object>>{
+
+    return this.http.get<Array<Object>>(this.global.databaseURL + "/order/{userid}?userId="+userId).pipe(tap(data => { 
+      var array = this.global.generateArray(data); 
+      for (let key1 in array) {
+        array[key1].fields = this.global.jsonFormating(array[key1].fields);
+      }
+      return array;
+    }));
+
+    /*
     if (this.cookie.check('myRequests') && this.myRequests.length == 0){
       var jsonObj = JSON.parse(this.cookie.get('myRequests'));
       //console.log('My Reqs : '+ this.cookie.get('myRequests'));
@@ -114,16 +126,8 @@ export class CartService{
       }
     }
     return this.myRequests;
+    */
   }
 
-  //Method for converting JSON format from Java interface to Angular accepted form 
-  JSONFormating(data): JSON{
-    return JSON.parse(JSON.stringify(data).replace(/\\r\\n/g, "").replace(/\\"/g, '"').replace(/\\t/g,"").replace(/\s\s+/g, " ").replace(/"{/g,"{").replace(/}"/g,"}"));
-  }
-
-  //Method to convert object to array
-  generateArray(obj){
-    return Object.keys(obj).map((key)=>{ return obj[key]});
-  }
 
 }

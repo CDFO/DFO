@@ -2,43 +2,33 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { map,tap } from 'rxjs/operators';
-import { Area, Nodal } from '../tmp/classes';
+import { Global } from '../global';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CatalogueService {
 
-  public updatedFields : object;
-  nodal: Nodal[] = [];
-  childArray = [];
-  parentchild : object;
-
-  public httpOptions = {
-    headers: new HttpHeaders({ 
-      'Access-Control-Allow-Origin':'*',
-      'Authorization':'authkey',
-      'Access-Control-Allow-Headers':'X-Requested-With,content-type',
-      'Content-Type':'application/json; charset=utf-8'
-    })
-  };
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http : HttpClient,
+    private global : Global
+  ) {}
 
   //Method to get Categories to be displayed in Left NAV
   getCategories(): Observable<object>{
     //return this.http.get<object>("http://localhost:8080/rpc/get_categories");
-    return this.http.get<object>("http://localhost:8084/catalogue/active");
+    return this.http.get<object>(this.global.databaseURL + "/catalogue/active");
   }
 
   //Method to get Catalogues to be displayed in Catalogue
   getCataloguesForCategory(cat: string): Observable<object>{
     //return this.http.get<object>("http://localhost:8080/rpc/get_catalogues?category=eq."+cat).pipe(tap(data => { 
-    return this.http.get<object>("http://localhost:8084/catalogue/{category}?Category="+cat).pipe(tap(data => { 
-        var array = this.generateArray(data); 
+    return this.http.get<object>(this.global.databaseURL + "/catalogue/{category}?Category="+cat).pipe(tap(data => { 
+        var array = this.global.generateArray(data); 
         for (let key1 in array) {
-          array[key1].profile = this.JSONFormating(array[key1].profile);
-          array[key1].fields = this.JSONFormating(array[key1].fields);
+          array[key1].profile = this.global.jsonFormating(array[key1].profile);
+          array[key1].fields = this.global.jsonFormating(array[key1].fields);
           for (let key2 in array[key1].fields) {
 
             //Get Special Select Fields
@@ -113,11 +103,6 @@ export class CatalogueService {
     }));
   }
 
-  //Method for converting JSON format from Java interface to Angular accepted form 
-  JSONFormating(data): JSON{
-    return JSON.parse(JSON.stringify(data).replace(/\\r\\n/g, "").replace(/\\"/g, '"').replace(/\\t/g,"").replace(/\s\s+/g, " ").replace(/"{/g,"{").replace(/}"/g,"}"));
-  }
-
   // ****************** DROPDOWNS ****************** //
   getShuttleRoute(): Observable<object>{
     return this.http.get<object>("http://localhost:8080/settings?name=eq.shuttle-route");
@@ -139,10 +124,6 @@ export class CatalogueService {
     return this.http.get<object>("http://localhost:8080/settings?name=eq.subnodal");
   }
 
-  // ****************** GENERAL ****************** //
-  generateArray(obj){
-    return Object.keys(obj).map((key)=>{ return obj[key]});
-  }
 
 
   /* ****************** NOT USED ******************

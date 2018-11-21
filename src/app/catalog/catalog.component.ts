@@ -4,11 +4,11 @@ import { CatalogueService } from './catalog.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router} from '@angular/router';
 import { Observable } from 'rxjs';
-import { Http, Response, Headers, RequestOptions, ResponseContentType, RequestMethod  } from '@angular/http';
-import { map,catchError } from 'rxjs/operators'; 
+import { Http, Response} from '@angular/http';
 import { CartService } from '../cart/cart.service';
 import { AlertComponent } from '../alert/alert.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Global } from '../global';
 
 @Component({
   selector: 'app-catalog',
@@ -40,16 +40,14 @@ export class CatalogComponent implements OnInit {
   catalogues: object;
 
   //Regx Patterns for Validations
-  emailPattern : string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"; 
-  phonePattern : string = "^[6-9]{1}[0-9]{9}$";
+  emailPattern : string = this.global.emailPattern; 
+  phonePattern : string = this.global.phonePattern;
 
   constructor(
     private http : Http, 
-    private elRef :ElementRef,
+    private global : Global,
     private dialog : MatDialog,
     private cart : CartService,
-    @Inject(DOCUMENT) document,
-    private renderer : Renderer2,
     private route : ActivatedRoute, 
     private catalogueService : CatalogueService){
       if (window.screen.width > 450)
@@ -186,19 +184,9 @@ export class CatalogComponent implements OnInit {
 
   /* ************* TO BE USED *************** */
   public postData(data: object) {
-    let postUrl = 'http://localhost:8084/cart';
+    let postUrl = this.global.databaseURL + "/cart";
 
-    const options = new RequestOptions({
-      headers: new Headers({'Content-Type':'application/json'}),
-      method: RequestMethod.Put,
-      url:postUrl,
-      responseType: ResponseContentType.Json,
-      withCredentials: false
-    });
-
-    //return this.http.put(postUrl, data, options).pipe(map(this.handleData),catchError(this.handleError));
-
-    this.http.put(postUrl, data, options)
+    this.http.put(postUrl, data, this.global.putOptions)
     .subscribe(
       response => {
         this.cart.Count.next(this.cart.cartLength+1);

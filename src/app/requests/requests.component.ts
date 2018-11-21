@@ -16,6 +16,7 @@ export class RequestsComponent implements OnInit {
   catID : number;
   formDivHeight : number;
   Math : Math;
+  userId : number = 0;
 
   constructor(
     private cart: CartService, 
@@ -28,8 +29,10 @@ export class RequestsComponent implements OnInit {
 
   ngOnInit() {
     //this.cookie.deleteAll();
-    this.myRequests = this.cart.getMyRequests();
-    console.log(this.myRequests); 
+    this.cart.getMyRequests(this.userId).subscribe(data => {
+      this.myRequests = data;
+      //console.log(this.myRequests); 
+    });
   }
 
   showReqDetails(item: JSON, id, catalogueDescription){

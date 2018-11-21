@@ -33,7 +33,7 @@
           <ul>
             <li *ngFor="let category of categories">
               <!--<i class="fa fa-lg fa-fw fa-shopping-cart  menuIcons"></i>-->
-              <a [routerLink]="['/catalogue',category.category | lowercase]" (click)="minimizeAll()" [ngClass]="{'activeRoute': isActive('/catalogue/'+category.category | lowercase)}" title="{{category.category | titlecase}}">
+              <a [routerLink]="['/catalogue',category.category | lowercase]" [ngClass]="{'activeRoute': isActive('/catalogue/'+category.category | lowercase)}" title="{{category.category | titlecase}}">
                 {{category.category | titlecase}}
                 <span class="badge pull-right">{{category.count}}</span>
               </a>
