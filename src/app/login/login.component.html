@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <button [disabled]="loading" class="btn dfo-primary">
+                <button [disabled]="loading || !loginForm.valid" class="btn dfo-primary">
                     <i title="Login" class="fa fa-sign-in"></i> 
                     Login
                 </button> 

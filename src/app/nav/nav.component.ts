@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService} from '../_services/auth.service';
 import { CatalogueService } from '../_services/catalog.service';
 
 @Component({
@@ -13,19 +14,18 @@ export class NavComponent implements OnInit {
   categories: object;
   loggedIn : boolean;
   divId : string;
-  private _opened: boolean = false;
 
-  constructor(private router: Router, private catalogueService: CatalogueService) { }
+  constructor(
+    private router: Router, 
+    private auth : AuthService, 
+    private catalogueService: CatalogueService
+  ) { }
  
-  private _toggleSidebar() {
-    this._opened = !this._opened;
-  }
-
   ngOnInit() {
-    if (localStorage.getItem('currentUser')){
-      this.loggedIn = true;
+    this.auth.cast.subscribe(login => {
+      this.loggedIn = login;
       this.divId = "main";
-    }
+    });
   }
 
   minimizeAll(){

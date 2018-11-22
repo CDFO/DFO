@@ -1,9 +1,9 @@
+import { first } from 'rxjs/operators';
+import { AuthService} from '../_services/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService} from '../_services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { AlertService } from '../_services/alert.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
+    private router : Router,
     private auth : AuthService, 
     private alert : AlertService,
-    private formBuilder : FormBuilder,
     private route : ActivatedRoute, 
-    private router : Router
+    private formBuilder : FormBuilder
   ) { }
 
   ngOnInit() {
@@ -51,12 +51,10 @@ export class LoginComponent implements OnInit {
     .pipe(first())
     .subscribe(
         data => {
-          //this.router.navigate([this.returnUrl]);
-          window.location.href = this.returnUrl;
+          this.router.navigate([this.returnUrl]);
         },
         error => {
           this.alert.error(error);
-          console.log(error);
           this.loading = false;
         }
     );  

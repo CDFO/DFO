@@ -1,4 +1,6 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
 import { CartService } from '../_services/cart.service';
 import { AlertComponent } from '../alert/alert.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -19,17 +21,23 @@ export class HeaderComponent implements OnInit {
   profilePic : string;
   loggedIn : boolean;
 
-  constructor(private cart: CartService, private dialog: MatDialog) { 
-    this.profilePic = '../../assets/images/profile/user.png';
-  }
+  constructor(
+      private router : Router,
+      private cart : CartService, 
+      private dialog : MatDialog,
+      private auth : AuthService, 
+    ) { 
+      this.profilePic = '../../assets/images/profile/user.png';
+    }
 
   ngOnInit() {
-    if (localStorage.getItem('currentUser')){
-      this.loggedIn = true;
+    this.auth.checkLogin();
+    this.auth.cast.subscribe(login => {
+      this.loggedIn = login;
       this.cart.cast.subscribe(totalItems =>  this.nCount = totalItems);
       if (!this.nCount)
         this.cart.getFromCart(0).subscribe(data => this.nCount = data.length);
-    }
+    });
   }
 
   logout(){
@@ -38,8 +46,9 @@ export class HeaderComponent implements OnInit {
     });
     dlg.afterClosed().subscribe((logout: boolean) => {
       if (logout) {
-        localStorage.removeItem('currentUser');
-        window.location.href = "\login";
+        this.auth.logout();;
+        this.router.navigate(['\login']);
+        //window.location.href = "\login";
       }
     });
   }
