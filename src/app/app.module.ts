@@ -12,7 +12,7 @@ import { ManageComponent } from './manage/manage.component';
 import { NoPageComponent } from './no-page/no-page.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.route';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { BreadcrumbsModule } from 'ng6-breadcrumbs';
@@ -34,6 +34,9 @@ import { LoginComponent } from './login/login.component';
 import { NeedAuthGuard } from './_guards/auth.guard';
 import { AlertService } from './_services/alert.service';
 import { AlertsComponent } from './_directives/alert.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { JwtInterceptor } from './_helpers/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,8 @@ import { AlertsComponent } from './_directives/alert.component';
     NgbModule,
     MatDialogModule,  
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   entryComponents:[ AlertComponent ],
   providers: [
@@ -79,7 +83,9 @@ import { AlertsComponent } from './_directives/alert.component';
     DropDownService,
     Global,
     NeedAuthGuard,
-    AlertService
+    AlertService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     ],
 
   bootstrap: [AppComponent],

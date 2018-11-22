@@ -1,6 +1,6 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../_services/cart.service';
-import { CookieService } from 'ngx-cookie-service';
 import { AlertComponent } from '../alert/alert.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -27,21 +27,23 @@ export class CartComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private cart: CartService, 
-    private cookie : CookieService) {
+    private cart: CartService,
+    private spinner: NgxSpinnerService,
+    ) {
       if (window.screen.width > 450)
         this.formDivHeight = window.innerHeight-50;
   }
 
+  //Display cart for user
   ngOnInit() {
-    //this.cookie.deleteAll();
-    //this.myCart = this.cart.getFromCart(0);
-    this.cart.getFromCart(0).subscribe(data => {
+    this.spinner.show();
+    this.cart.getFromCart(this.userId).subscribe(data => {
       this.myCart = data;
-      //console.log(this.myCart); 
+      this.spinner.hide();
     });
   }
 
+  //Show details for selected cart item
   showCartDetails(item: JSON, catalogueDescription){
     this.cartKeys = Object.keys(item);
     this.cartObject = item;
@@ -55,21 +57,22 @@ export class CartComponent implements OnInit {
     });
     dlg.afterClosed().subscribe((remove: boolean) => {
       if (remove) {
+        this.spinner.show();
         this.cart.removeFromCart(id).subscribe(
           response => {
-            console.log(response);
             this.cartObject = null;
             this.successMessage = 'Item '+ name +' has been removed sucessfully.';
             this.cart.getFromCart(this.userId).subscribe(data => {
               this.myCart = data;
+              this.spinner.hide();
             })
           },
           error => {
             this.errorMessage = error._body.message;
+            this.spinner.hide();
             console.log(error);    
           }
         );
-        //this.cart.removeFromCart(id);
       }
     });
   }
@@ -81,26 +84,23 @@ export class CartComponent implements OnInit {
     });
     dlg.afterClosed().subscribe((checkout: boolean) => {
       if (checkout) {
+        this.spinner.show();
         this.cart.addToMyRequests(this.userId).subscribe(
           response => {
             this.cartObject = null;
             this.successMessage = (this.myCart.length > 1) ? this.myCart.length + ' items have been submitted sucessfully' : 'Item has been submitted sucessfully';
             this.cart.getFromCart(this.userId).subscribe(data => {
               this.myCart = data;
+              this.spinner.hide();
             })
           },
           error => {
             this.errorMessage = error;//._body.message
+            this.spinner.hide();
             console.log(error);    
           }
         );
-        /*
-        this.cart.addToMyRequests();
-        this.myCart = [];
-        this.cartObject = null;
-        this.successMessage = (this.myCart.length > 1) ? this.myCart.length + ' items have been submitted sucessfully' : 'Item has been submitted sucessfully';
-        */
+      }
+    });
   }
-});
-}
 }

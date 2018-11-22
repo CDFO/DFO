@@ -1,5 +1,12 @@
 form{padding:10px 30px 10px 30px;}
 input{font-size: 0.9em;}
+
+.login {
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    margin-left: -15%;
+}
+
 h2{
     color: gray;
     margin-top: -20px;
@@ -8,8 +15,8 @@ h2{
 
 .wrapLogin {
     margin: 0 auto;
-    margin-top:5rem;
-    width: 390px;
+    margin-top:3rem;
+    width: 90%;
     background: #fff;
     border-radius: 10px;
     
@@ -56,4 +63,17 @@ button:focus {
 .bootstrap-select, .btn.focus, .btn:focus {
     outline: none !important;
     box-shadow: none !important;
+}
+
+@media only screen and (min-width: 810px){
+    .login{margin-left: -180px;}
+    .wrapLogin{
+        width: 390px;
+        margin-top: 5em;
+    }
+}
+
+@media only screen and (min-width: 760px){
+    .login{margin-left: -20%;}
+    .wrapLogin{width: 390px;}
 }

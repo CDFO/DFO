@@ -1,14 +1,14 @@
-import { Inject, Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common'; 
-import { CatalogueService } from '../_services/catalog.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router} from '@angular/router';
 import { Observable } from 'rxjs';
+import { Global } from '../global';
 import { Http, Response} from '@angular/http';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CartService } from '../_services/cart.service';
 import { AlertComponent } from '../alert/alert.component';
+import { ActivatedRoute, Params, Router} from '@angular/router';
+import { CatalogueService } from '../_services/catalog.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { Global } from '../global';
+import { Inject, Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-catalog',
@@ -49,6 +49,7 @@ export class CatalogComponent implements OnInit {
     private dialog : MatDialog,
     private cart : CartService,
     private route : ActivatedRoute, 
+    private spinner: NgxSpinnerService,
     private catalogueService : CatalogueService){
       if (window.screen.width > 450)
         this.formDivHeight = window.innerHeight-50;      
@@ -58,10 +59,12 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
       if(params['category'] != undefined){
+        this.spinner.show();
         this.categoryName = params['category'];
         this.catalogueDescription = null;
         this.catalogueService.getCataloguesForCategory(this.categoryName).subscribe(data => {
           this.catalogues = data;
+          this.spinner.hide();
           //console.log(this.catalogues);
         })
       }
@@ -119,6 +122,7 @@ export class CatalogComponent implements OnInit {
 
   //Method to submit the form and Add to Cart
   onSubmit(form) {
+    this.spinner.show();
     let tempObj = {
       "id" : this.catID,
       "catalogueName" : this.catalogueName,
@@ -191,9 +195,11 @@ export class CatalogComponent implements OnInit {
       response => {
         this.cart.Count.next(this.cart.cartLength+1);
         this.successMessage = 'Added to cart successfully.'
+        this.spinner.hide();
       },
       error => {
         this.errorMessage = error._body.message;
+        this.spinner.hide();
         console.log(error);
       }
     );  

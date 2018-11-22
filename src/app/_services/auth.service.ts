@@ -14,11 +14,13 @@ export class AuthService {
 
   constructor(private http: HttpClient, private global : Global) {}
 
+  //For fresh page load login check
   checkLogin(){
     if (localStorage.getItem('currentUser'))
       this.loggedIn.next(true);
   }
 
+  //Login check
   login(username: string, password: string) {
     return this.http.put<any>(this.global.databaseURL + "/order", { username: username, password: password })
       .pipe(map(user => {
@@ -33,6 +35,7 @@ export class AuthService {
       }));
   }
 
+  //Logout user
   logout() {
     // remove user from local storage to log user out
     this.loggedIn.next(false);

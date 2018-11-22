@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../_services/alert.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private auth : AuthService, 
     private alert : AlertService,
     private route : ActivatedRoute, 
+    private spinner: NgxSpinnerService,
     private formBuilder : FormBuilder
   ) { }
 
@@ -46,16 +48,17 @@ export class LoginComponent implements OnInit {
         return;
     }
 
-    this.loading = true;
+    this.spinner.show();
     this.auth.login(this.f.username.value, this.f.password.value)
     .pipe(first())
     .subscribe(
         data => {
+          this.spinner.hide();
           this.router.navigate([this.returnUrl]);
         },
         error => {
           this.alert.error(error);
-          this.loading = false;
+          this.spinner.hide();
         }
     );  
   }

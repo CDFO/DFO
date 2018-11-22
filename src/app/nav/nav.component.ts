@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit } from '@angular/core';
 import { AuthService} from '../_services/auth.service';
 import { CatalogueService } from '../_services/catalog.service';
@@ -18,9 +19,11 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router, 
     private auth : AuthService, 
+    private spinner: NgxSpinnerService,
     private catalogueService: CatalogueService
   ) { }
  
+  //Check user status on load
   ngOnInit() {
     this.auth.cast.subscribe(login => {
       this.loggedIn = login;
@@ -28,13 +31,14 @@ export class NavComponent implements OnInit {
     });
   }
 
+  //Minimize all menu items
   minimizeAll(){
     this.categories = null;
   }
 
+  //Highlight menu items on selection/click
   isActive(viewLocation){
     let url = this.router.url;
-    //console.log('****'+ viewLocation + ' = ' + url + ' = ' +url.indexOf(viewLocation).toString());
     if (url.indexOf(viewLocation) == 0){
       if (viewLocation == '/catalogue' && !this.categories){
         this.getCategory();
@@ -46,10 +50,12 @@ export class NavComponent implements OnInit {
     }
   }
 
+  //Method to get categories to derive sub menu
   getCategory(){
+    this.spinner.show();
     this.catalogueService.getCategories().subscribe(data => {
       this.categories = data;
-      //console.log(this.categories);
+      this.spinner.hide();
     });
   }
 
