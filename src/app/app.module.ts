@@ -37,6 +37,8 @@ import { AlertsComponent } from './_directives/alert.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { ProgressBarComponent } from './_services/progressbar';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     AlertsComponent,
     TmpComponent,
     LoginComponent,
+    ProgressBarComponent
     ],
   imports: [
     BrowserModule, 
@@ -64,6 +67,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     FontAwesomeModule,
     RouterModule.forRoot(routes),
     SidebarModule.forRoot(),
+    NgIdleKeepaliveModule.forRoot(),
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
@@ -76,7 +80,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
     BrowserAnimationsModule,
     NgxSpinnerModule
   ],
-  entryComponents:[ AlertComponent ],
+  entryComponents:[ AlertComponent, ProgressBarComponent ],
   providers: [
     CartService,
     CookieService,

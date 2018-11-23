@@ -21,8 +21,8 @@ export class AuthService {
   }
 
   //Login check
-  login(username: string, password: string) {
-    return this.http.put<any>(this.global.databaseURL + "/order", { username: username, password: password })
+  login(username: string, password: string) {//this.global.databaseURL + "/order"
+    return this.http.put<any>("https://jsonplaceholder.typicode.com/posts/42", { username: username, password: password })
       .pipe(map(user => {
         user = "manu";
         // login successful if there's a jwt token in the response

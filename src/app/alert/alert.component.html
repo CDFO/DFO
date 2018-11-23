@@ -1,4 +1,7 @@
-<div class="alertTitle" mat-dialog-title><i class="fa fa-{{data.icon}} dialogIcon" aria-hidden="true"></i> {{data.title}}</div>
+<div class="alertTitle" mat-dialog-title>
+    <i class="fa fa-{{data.icon}} dialogIcon" aria-hidden="true"></i>
+    {{data.title}}
+</div>
 <div class="alertMessage" mat-dialog-content>{{data.msg}}</div>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="false" class="colors" cdkFocusInitial>No</button>

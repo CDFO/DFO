@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           this.spinner.hide();
+          this.auth.loggedIn.next(true);
           this.router.navigate([this.returnUrl]);
         },
         error => {

@@ -178,6 +178,20 @@ button.dfo-primary {
     margin:15px;
 }
 
+.modal-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    min-height: calc(100vh - 60px);
+  }
+
+.mat-dialog-title, .modal-title  {
+    font-family: inherit !important;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
 /****** MOBILE STYLES ******/
 @media only screen and (max-width: 450px){
     .catalogFormDisplay{
