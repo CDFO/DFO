@@ -12,7 +12,10 @@ export class AuthService {
   public loggedIn = new BehaviorSubject<boolean>(false);
   cast = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient, private global : Global) {}
+  constructor(
+    private http: HttpClient, 
+    private global : Global,
+  ) {}
 
   //For fresh page load login check
   checkLogin(){
@@ -30,6 +33,9 @@ export class AuthService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           this.loggedIn.next(true);
           localStorage.setItem('currentUser', JSON.stringify(user));
+
+          //this.idle.watch();
+
         }
         return user;
       }));
