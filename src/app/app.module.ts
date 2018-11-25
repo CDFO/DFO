@@ -34,11 +34,13 @@ import { LoginComponent } from './login/login.component';
 import { NeedAuthGuard } from './_guards/auth.guard';
 import { AlertService } from './_services/alert.service';
 import { AlertsComponent } from './_directives/alert.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
+//import { NgxSpinnerModule } from 'ngx-spinner';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { ProgressBarComponent } from './_services/progressbar';
+import { SearchComponent } from './search/search.component';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { ProgressBarComponent } from './_services/progressbar';
     AlertsComponent,
     TmpComponent,
     LoginComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    SearchComponent
     ],
   imports: [
     BrowserModule, 
@@ -68,6 +71,7 @@ import { ProgressBarComponent } from './_services/progressbar';
     RouterModule.forRoot(routes),
     SidebarModule.forRoot(),
     NgIdleKeepaliveModule.forRoot(),
+    Ng4LoadingSpinnerModule.forRoot(),
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
@@ -78,7 +82,7 @@ import { ProgressBarComponent } from './_services/progressbar';
     MatDialogModule,  
     MatButtonModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    //NgxSpinnerModule
   ],
   entryComponents:[ AlertComponent, ProgressBarComponent ],
   providers: [

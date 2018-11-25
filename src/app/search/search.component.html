@@ -1,0 +1,17 @@
+<section class="filter-wrapper">
+  <div class="wrap">
+    <div class="search">
+      <input [formControl]="queryField" type="text" id="keyword" class="searchTerm" 
+        placeholder="Search Catalogues...">
+      <button class="searchButton"><i class="fa fa-search"></i></button>
+    </div>
+    <ul class="filter-select" *ngIf="searchResults">
+      <li *ngFor="let catalogue of searchResults" class="filter-select-list"  [routerLink]="['/catalogue',catalogue.category | lowercase]" (click)="closeSearchList()">
+      <!--(click)="getCatalogueFormSearch(catalogue.id,catalogue.name,catalogue.description,catalogue.fields,catalogue.profile.icon,catalogue.category)" skipLocationChange=true>-->
+        <i title="{{catalogue.name}}" class="fa fa-{{catalogue.profile.icon}} searchIcon"></i>
+        <span class="catalogueName">{{catalogue.name}}</span>
+        <span class="catalogueDescription">{{catalogue.description}}</span>
+      </li>
+    </ul>
+  </div>  
+</section>

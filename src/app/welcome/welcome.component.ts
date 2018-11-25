@@ -39,7 +39,7 @@ export class WelcomeComponent implements OnInit {
     this.idle.watch();
     this.idleState = 'Started.';
     this.timedOut = false;
-    console.log('Reset! - '+source);
+    //console.log('Reset! - '+source);
   }
 
   //Execution Order - 1
@@ -101,7 +101,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
         //console.log('Welcome Init');
         // sets an idle timeout of 15 minutes.
-        this.idle.setIdle(10);//900
+        this.idle.setIdle(900);//900
         // sets a timeout period of 5 minutes.
         this.idle.setTimeout(300);
         // sets the interrupts like Keydown, scroll, mouse wheel, mouse down, and etc
@@ -113,7 +113,6 @@ export class WelcomeComponent implements OnInit {
         //console.log('Initial Set Values + Intrupt');
             
         this.onIdleEnd = this.idle.onIdleEnd.subscribe(() => {
-          console.log('IN onIdleEnd');
           this.idleState = 'NO_LONGER_IDLE';
         });
         //console.log('onIdleEnd.subscribe');

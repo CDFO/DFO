@@ -31,6 +31,7 @@ export class RequestsComponent implements OnInit {
 
   //Display requests made 
   ngOnInit() {
+    //this.spinner.spinnerObservable;
     this.spinner.show();
     this.cart.getMyRequests(this.userId).subscribe(data => {
       this.myRequests = data;

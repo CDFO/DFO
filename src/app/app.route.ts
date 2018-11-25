@@ -11,7 +11,8 @@ import { ProfileComponent } from "./profile/profile.component";
 import { CartComponent } from "./cart/cart.component";
 import { LoginComponent } from "./login/login.component";
 import { TmpComponent } from "./tmp/tmp.component";
-import {NeedAuthGuard} from './_guards/auth.guard';
+import { NeedAuthGuard } from './_guards/auth.guard';
+import { SearchComponent } from "./search/search.component";
 
 //Array of routes
 export const routes: Routes = [
@@ -27,6 +28,7 @@ export const routes: Routes = [
     {path: 'cart', component: CartComponent, canActivate: [NeedAuthGuard]},
     {path: 'profile', component: ProfileComponent, canActivate: [NeedAuthGuard]},
     {path: 'notifications', component: NotificationsComponent, canActivate: [NeedAuthGuard]},
+    {path: 'search', component: SearchComponent, canActivate: [NeedAuthGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'tmp', component: TmpComponent},
     {path: '**', component: NoPageComponent}

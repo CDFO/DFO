@@ -3,10 +3,10 @@
     <div class="col-4 col-md-1">
       <img src="../../assets/images/logo.png" routerLink="welcome" class="img-fluid cgiLogo" title="CGI">
     </div>
-    <div class="col-1 col-md-7 col-lg-9 appHeading">
+    <div class="col-1 col-md-3 col-lg-4 appHeading nopadding">
       <!--Digital Front Office-->
     </div>
-    <div class="col-6 col-md-4 col-lg-2 text-right">
+    <div class="col-7 col-md-4 col-lg-2 text-right order-sm-last nopadding">
       <ng-container *ngIf="loggedIn">
         <span class="fa-stack headerIconCercle" routerLink="cart" title="Cart">
             <i class="fa fa-circle fa-stack-2x icon-background"></i>
@@ -30,5 +30,8 @@
       </span>
       -->
     </div>
+    <div class="col-12 col-md-4 col-lg-5">
+      <app-search></app-search>
+    </div>  
   </div>
 </div>

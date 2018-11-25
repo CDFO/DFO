@@ -1,8 +1,10 @@
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+//import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit } from '@angular/core';
 import { AuthService} from '../_services/auth.service';
 import { CatalogueService } from '../_services/catalog.service';
+import { Subject } from 'rxjs';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-nav',
@@ -15,11 +17,12 @@ export class NavComponent implements OnInit {
   categories: object;
   loggedIn : boolean;
   divId : string;
+  tmp : any;
 
   constructor(
     private router: Router, 
     private auth : AuthService, 
-    private spinner: NgxSpinnerService,
+    private spinner: Ng4LoadingSpinnerService,
     private catalogueService: CatalogueService
   ) { }
  

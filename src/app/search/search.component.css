@@ -1,0 +1,107 @@
+.searchIcon {
+    padding:10px 10px 0px 0px;
+    font-size: 1.5em;
+}
+
+.filter-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-wrapper {
+  min-height: 100%;
+  flex-flow: column wrap;;
+  position: relative
+}
+
+.filter-select {
+  width: 50%;
+  padding-left:0px;
+  list-style: none;
+  font-size: 0.9em;
+  color: gray;
+  border: 1px solid #e7eaec;
+  border-top: none;
+  max-height:200px;
+  width: 100%;
+  position: absolute;
+  top:40px;
+  overflow-y: auto;
+  background: #fff
+}
+
+.catalogueDescription {
+    font-size: 0.8em;
+    font-style: italic;
+    position: relative;
+    top:5px;
+}
+
+.filter-select-list {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.filter-select-list:hover {
+    color:black;
+}
+
+.catalogueName {
+  display: inline-block;
+  position: absolute;
+  margin-bottom:5px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .filter-select {
+    font-size: 0.9em;
+    left: 0;
+    top: calc(50% + 23px);
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .filter-select {
+    left: 0;
+  }
+}
+
+/***************************************/
+
+.search {
+    width: 100%;
+    position: relative
+  }
+  
+  .searchTerm {
+    float: left;
+    width: 100%;
+    border: 1px solid #e7eaec;
+    padding: 5px;
+    height: 36px;
+    border-radius: 5px;
+    outline: none;
+    color: gray;
+    font-size: 0.9em;
+  }
+  
+  .searchButton {
+    position: absolute;
+    right: 0px;
+    width: 40px;
+    height: 36px;
+    border: 1px solid #e7eaec;
+    background: #e7eaec;
+    text-align: center;
+    color: gray;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  /*Resize the wrap to see the search bar change!*/
+  .wrap{
+    width: 100%;
+  }
+

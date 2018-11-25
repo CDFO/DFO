@@ -15,6 +15,12 @@ export class CatalogueService {
     private global : Global
   ) {}
 
+  //Method to get all catalogues for search
+  getCataloguesForSearch(search: string): Observable<object>{
+    //return this.http.get<object>("http://localhost:8080/rpc/get_categories");
+    return this.http.get<object>(this.global.databaseURL + "/catalogue");//"/catalogue/{search}?Search="+search
+  }
+
   //Method to get Categories to be displayed in Left NAV
   getCategories(): Observable<object>{
     //return this.http.get<object>("http://localhost:8080/rpc/get_categories");
