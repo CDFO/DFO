@@ -56,7 +56,7 @@ export class WelcomeComponent implements OnInit {
         this.reset(result + ' - openProgressForm');
       } 
     });
-    console.log('openProgressForm!');
+    //console.log('openProgressForm!');
   }
 
   //Execution Order - 2
@@ -68,16 +68,16 @@ export class WelcomeComponent implements OnInit {
   //Execution Order - 3
   closeProgressForm() {
     this.progressBarPopup.close();
-    console.log('closeProgressForm!');
+    //console.log('closeProgressForm!');
   }
 
   //Execution Order - 4
   resetTimeOut() {
     this.idle.stop();
-    this.idle.onIdleStart.unsubscribe();
-    this.idle.onTimeoutWarning.unsubscribe();
-    this.idle.onIdleEnd.unsubscribe();
-    console.log('resetTimeOut!');
+    this.onIdleStart.unsubscribe();
+    this.onTimeoutWarning.unsubscribe();
+    this.onIdleEnd.unsubscribe();
+    //console.log('resetTimeOut!');
   }
 
   //Execution Order - 5
@@ -90,7 +90,7 @@ export class WelcomeComponent implements OnInit {
 
   //Execution Order - 6
   ngOnDestroy() {
-    this.logout();
+    //this.logout();
     this.resetTimeOut();
     console.log('ngOnDestroy!');
   }
@@ -99,7 +99,7 @@ export class WelcomeComponent implements OnInit {
 
 
   ngOnInit() {
-        console.log('Welcome Init');
+        //console.log('Welcome Init');
         // sets an idle timeout of 15 minutes.
         this.idle.setIdle(10);//900
         // sets a timeout period of 5 minutes.
@@ -110,35 +110,35 @@ export class WelcomeComponent implements OnInit {
             document.getElementsByTagName('body'), 'keydown DOMMouseScroll mousewheel mousedown touchstart touchmove scroll'
           )
         ]);
-        console.log('Initial Set Values + Intrupt');
+        //console.log('Initial Set Values + Intrupt');
             
-        this.idle.onIdleEnd.subscribe(() => {
+        this.onIdleEnd = this.idle.onIdleEnd.subscribe(() => {
           console.log('IN onIdleEnd');
           this.idleState = 'NO_LONGER_IDLE';
         });
-        console.log('onIdleEnd.subscribe');
+        //console.log('onIdleEnd.subscribe');
 
-        this.idle.onTimeout.subscribe(() => {
+        this.onTimeout = this.idle.onTimeout.subscribe(() => {
           this.idleState = 'TIMED_OUT';
           this.timedOut = true;
           this.closeProgressForm();
           this.logout();
         });
-        console.log('property.subscribe');
+        //console.log('property.subscribe');
 
-        this.idle.onIdleStart.subscribe(() => {
+        this.onIdleStart = this.idle.onIdleStart.subscribe(() => {
           this.idleState = 'IDLE_START', this.openProgressForm(1);
         });
-        console.log('onIdleStart.subscribe');
+        //console.log('onIdleStart.subscribe');
 
-        this.idle.onTimeoutWarning.subscribe((countdown: any) => {
+        this.onTimeoutWarning = this.idle.onTimeoutWarning.subscribe((countdown: any) => {
           this.idleState = 'IDLE_TIME_IN_PROGRESS';
           this.progressBarPopup.componentInstance.count = (Math.floor((countdown - 1) / 60) + 1);
           this.progressBarPopup.componentInstance.progressCount = this.reverseNumber(countdown);
           this.progressBarPopup.componentInstance.countMinutes = (Math.floor(countdown / 60));
           this.progressBarPopup.componentInstance.countSeconds = countdown%60;
         });
-        console.log('onTimeoutWarning.subscribe');
+        //console.log('onTimeoutWarning.subscribe');
 
         // sets the ping interval to 15 seconds
         this.keepalive.interval(15);

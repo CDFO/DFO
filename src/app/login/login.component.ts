@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
     // reset login status
     this.auth.logout();
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';    
+    //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';    
+    this.returnUrl = '/welcome';
   }
 
   get f() { return this.loginForm.controls; }
@@ -55,7 +56,7 @@ export class LoginComponent implements OnInit {
         data => {
           this.spinner.hide();
           //this.auth.loggedIn.next(true);
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/welcome']);//[this.returnUrl]
         },
         error => {
           this.alert.error(error);

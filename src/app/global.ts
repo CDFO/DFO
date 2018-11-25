@@ -7,6 +7,8 @@ export class Global {
 
     public databaseURL : string = "http://localhost:8084";
 
+    public sessionWarningMinutes : number = 1;
+
     //Regx Patterns for Validations
     public emailPattern : string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"; 
     public phonePattern : string = "^[6-9]{1}[0-9]{9}$";
