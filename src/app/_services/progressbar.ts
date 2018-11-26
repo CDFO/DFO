@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input} from '@angular/core';
+import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Global } from '../global'
 
 @Component({
   selector: 'progressbar-comp',
@@ -12,7 +13,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
     </div>
     <div class="modal-body">
       Your session will timeout in {{(countMinutes !== 0 ? + countMinutes+' Minute'+(countMinutes > 1 ? 's ' : ' ') : '') + countSeconds+' Seconds...'}}
-      <ngb-progressbar type="danger" [value]="progressCount" [max]="300" animate="false" class="progress-striped active">
+      <ngb-progressbar type="danger" [value]="progressCount" [max]="this.global.idleAlertTimeout" animate="false" class="progress-striped active">
       </ngb-progressbar>
     </div>
     <div class="modal-footer">
@@ -32,8 +33,8 @@ export class ProgressBarComponent {
   @Input() countMinutes: number;
   @Input() countSeconds: number;
   @Input() progressCount: number;
-
-  constructor(public activeModal: NgbActiveModal) {}
+  
+  constructor(private global : Global, public activeModal: NgbActiveModal) {}
 
   continue() {
     this.activeModal.close('continue');

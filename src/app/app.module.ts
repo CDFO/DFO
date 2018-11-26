@@ -41,6 +41,8 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { ProgressBarComponent } from './_services/progressbar';
 import { SearchComponent } from './search/search.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { AutologoutComponent } from './autologout/autologout.component';
+import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
     TmpComponent,
     LoginComponent,
     ProgressBarComponent,
-    SearchComponent
+    SearchComponent,
+    AutologoutComponent,
     ],
   imports: [
     BrowserModule, 
@@ -92,6 +95,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
     Global,
     NeedAuthGuard,
     AlertService,
+    NgbActiveModal,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     ],

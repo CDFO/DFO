@@ -4,7 +4,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../_services/alert.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
+//import { NgxSpinnerService } from 'ngx-spinner';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
     private auth : AuthService, 
     private alert : AlertService,
     private route : ActivatedRoute, 
-    private spinner: NgxSpinnerService,
+    private spinner: Ng4LoadingSpinnerService,
     private formBuilder : FormBuilder
   ) { }
 
@@ -35,8 +36,7 @@ export class LoginComponent implements OnInit {
     // reset login status
     this.auth.logout();
     // get return url from route parameters or default to '/'
-    //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';    
-    this.returnUrl = '/welcome';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';    
   }
 
   get f() { return this.loginForm.controls; }
@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           this.spinner.hide();
-          //this.auth.loggedIn.next(true);
-          this.router.navigate(['/welcome']);//[this.returnUrl]
+          this.auth.loggedIn.next(true);
+          this.router.navigate([this.returnUrl]);//['/welcome']
         },
         error => {
           this.alert.error(error);

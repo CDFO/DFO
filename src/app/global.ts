@@ -7,7 +7,8 @@ export class Global {
 
     public databaseURL : string = "http://localhost:8084";
 
-    public sessionWarningMinutes : number = 1;
+    public idleTimeout : number = 900;//seconds - 900=15 minutes
+    public idleAlertTimeout : number = 120;//seconds - 300=5 minutes
 
     //Regx Patterns for Validations
     public emailPattern : string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"; 

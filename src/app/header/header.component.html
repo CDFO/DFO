@@ -31,7 +31,10 @@
       -->
     </div>
     <div class="col-12 col-md-4 col-lg-5">
-      <app-search></app-search>
+      <ng-container *ngIf="loggedIn">
+        <app-search></app-search>
+        <app-autologout></app-autologout>
+      </ng-container>
     </div>  
   </div>
 </div>
